@@ -1,30 +1,70 @@
-# Comedor IPF - App de Pedidos 
+# Comedor IPF - App de Pedidos
 
-Aplicación desarrollada con Expo Router para la gestión de pedidos del comedor del Instituto Politécnico Formosa.
+src/app/
+├── (tabs)/
+│ ├── \_layout.tsx (Navegación principal inferior)
+│ ├── index.tsx  
+│ ├── menu/
+│ │ ├── \_layout.tsx (Stack anidado para mantener los tabs visibles)
+│ │ ├── index.tsx
+│ │ └── [id].tsx
+│ └── carrito/
+│ ├── \_layout.tsx (Stack anidado para el flujo de pago)
+│ ├── index.tsx
+│ └── nota.tsx (Vista superpuesta como Modal)
+├── ayuda/
+│ ├── index.tsx
+│ └── [...slug].tsx (Catch-all para artículos de ayuda)
+├── categorias/
+│ └── [categoria].tsx
+├── cocina/
+│ ├── \_layout.tsx (Menú lateral - Drawer)
+│ ├── index.tsx
+│ └── atendidos.tsx
+├── \_layout.tsx (Stack Raíz - Gestiona seguridad y modales)
+├── +not-found.tsx
+├── buscar.tsx
+├── confirmar.tsx (Pantalla Modal)
+├── login.tsx (Pantalla Modal)
+├── pedido.tsx (Redirección)
+└── turno/
+└── [numero].tsx
 
-## 1. Árbol de Rutas y Layouts
+2. Configuración de Layouts y Navegadores
+   Stack Raíz (src/app/\_layout.tsx): Contenedor principal de la aplicación. Configura las pantallas de login y confirmar para que se abran con una animación modal. Además, se encarga de proteger la entrada a la ruta /cocina leyendo el estado de sesión; si el usuario no está logueado, bloquea el acceso.
 
-A continuación se detalla la estructura de la carpeta `src/app` y los navegadores utilizados en cada `_layout.tsx`:
+Pestañas (src/app/(tabs)/\_layout.tsx): Utiliza un <Tabs> para gestionar el acceso rápido a las tres secciones más usadas por los clientes (Inicio, Menú y Carrito). Incluye la lógica para renderizar el "badge" (burbuja roja) que reacciona en tiempo real a la cantidad de ítems en el carrito.
 
-- **`src/app/_layout.tsx`**: Stack raíz. Contiene la configuración global, define las pantallas modales (`confirmar`, `login`) y protege la ruta `(cocina)`.
-- **`src/app/(tabs)/_layout.tsx`**: Tabs (Pestañas). Maneja la navegación principal inferior entre `index` (Inicio), `menu` (Menú) y `carrito`.
-- **`src/app/(tabs)/menu/_layout.tsx`**: Stack anidado. Permite navegar desde la lista de platos al detalle del plato manteniendo la barra de pestañas visible.
-- **`src/app/(tabs)/carrito/_layout.tsx`**: Stack anidado. Mantiene la barra de pestañas visible mientras el usuario navega desde el resumen del carrito hacia la pantalla de notas (`/carrito/nota`).
-- **`src/app/(cocina)/_layout.tsx`**: Drawer (Menú lateral). Panel exclusivo para los cocineros protegido mediante validación de sesión. Permite navegar entre la cola de pedidos pendientes y el historial de pedidos despachados.
+Menú Anidado (src/app/(tabs)/menu/\_layout.tsx): Implementa un <Stack> interno dentro de la pestaña del menú. Esto permite que el usuario pueda entrar a ver los detalles de un plato específico sin perder la barra de navegación de abajo.
 
-## 2. Justificación de Navegación: `replace` VS `push`
+Carrito Anidado (src/app/(tabs)/carrito/\_layout.tsx): Funciona igual que el menú, utilizando un <Stack> para mostrar la lista de compras y levantar la pantalla de notas para la cocina por encima del flujo normal.
 
-En el flujo de confirmación de pedido (`/confirmar` -> `/turno/[numero]`), se decidió utilizar el método **`router.replace`** (combinado con el bloqueo de gestos nativos) en lugar de `push` para evitar que la pantalla de confirmación quede almacenada en la pila de navegación.
+Panel de Cocina (src/app/cocina/\_layout.tsx): Emplea un componente <Drawer> para ofrecer un menú lateral exclusivo para los empleados, separando la experiencia de trabajo operativo de la interfaz visual del cliente.
 
-Si utilizáramos `push`, el usuario podría utilizar el gesto de deslizar o el botón de volver atrás del dispositivo para regresar a una pantalla de pago o confirmación donde el carrito ya fue procesado y vaciado. Al utilizar `replace`, modificamos el historial activo, lo que garantiza la integridad del estado, evita pedidos duplicados por accidentes de navegación y asegura un flujo unidireccional coherente.
+3. Justificación del Flujo de Confirmación (replace vs push)
+   En el paso final del pedido (transición de /confirmar hacia /turno/[numero]), se implementó explícitamente el método router.replace en lugar de push.
 
-## 3. Deep Link de Prueba
+El método push apila la pantalla nueva sobre la anterior. Si hiciéramos esto, el usuario podría utilizar la flecha de retroceso o el gesto de deslizar para volver a la pantalla de confirmación. Dado que en este punto el carrito ya fue vaciado y el pedido enviado, volver atrás generaría un estado visualmente inconsistente y podría provocar el re-envío accidental de pedidos vacíos o duplicados.
 
-Para abrir un plato directamente en Expo Go desde la terminal o el navegador del celular, utilizar el siguiente enlace:
-`comedoripf://menu/7`
-_(Nota: El plato 7 corresponde a "Agua mineral" según nuestra base de datos local)._
+Al utilizar replace, eliminamos la pantalla de confirmación del historial activo. Esto sitúa la pantalla del turno directamente encima de la pila, forzando un flujo unidireccional seguro que protege la integridad de los datos.
 
-## 4. Capturas de Pantalla
+4. Deep Links y Entorno de Pruebas
+   El sistema está configurado para responder a esquemas de URL personalizados. Para probar los enlaces profundos directamente hacia una pantalla con la aplicación corriendo en desarrollo, se pueden ejecutar los siguientes comandos en la terminal:
+
+Acceso directo a un plato:
+npx uri-scheme open "comedoripf://menu/7" --android
+
+Acceso directo a una búsqueda filtrada:
+npx uri-scheme open "comedoripf://buscar?q=tarta&categoria=almuerzo" --android
+
+5. Accesos del Personal
+   Para ingresar a la ruta protegida del <Drawer> y gestionar la cola de pedidos, se debe utilizar la siguiente cuenta de prueba:
+
+Usuario: cocina
+
+Contraseña: 1234
+
+6. Capturas de Pantalla
 
 A continuación se demuestra el funcionamiento del sistema:
 
@@ -32,12 +72,11 @@ A continuación se demuestra el funcionamiento del sistema:
   ![Error 404](./capturas/404.jpeg)
 
 - **Carrito con funcionalidad de deshacer:**
-  
+
 https://github.com/user-attachments/assets/c13a5487-36d0-4894-8ee7-056a8b5e93a8
 
 - **Turno asignado:**
   <img width="739" height="1600" alt="Turno asignado" src="https://github.com/user-attachments/assets/d66aab05-9a2f-4e76-aac7-8f6596489a25" />
-
 
 - **Login / Logout de Cocina y atendiendo pedidos (Cola):**
 
