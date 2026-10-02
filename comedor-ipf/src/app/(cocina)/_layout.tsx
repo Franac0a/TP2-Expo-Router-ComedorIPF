@@ -1,13 +1,12 @@
 import { Redirect } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Pressable, Text } from "react-native";
 import { useAppContext } from "../../context/AppContext";
 
 export default function CocinaLayout() {
-  // Traemos el estado de la sesión
-  const { conSesion } = useAppContext();
+  const { conSesion, logout } = useAppContext();
 
-  // Si no hay sesión, Expo Router corta la navegación y lo manda a login
   if (!conSesion) {
     return <Redirect href="/login" />;
   }
