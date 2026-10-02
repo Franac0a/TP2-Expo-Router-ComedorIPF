@@ -1,34 +1,37 @@
 # Comedor IPF - App de Pedidos
 
+```text
 src/app/
 ├── (tabs)/
-│ ├── \_layout.tsx (Navegación principal inferior)
-│ ├── index.tsx  
-│ ├── menu/
-│ │ ├── \_layout.tsx (Stack anidado para mantener los tabs visibles)
-│ │ ├── index.tsx
-│ │ └── [id].tsx
-│ └── carrito/
-│ ├── \_layout.tsx (Stack anidado para el flujo de pago)
-│ ├── index.tsx
-│ └── nota.tsx (Vista superpuesta como Modal)
+│   ├── _layout.tsx      (Navegación principal inferior)
+│   ├── index.tsx
+
+│   ├── menu/
+│   │   ├── _layout.tsx  (Stack anidado para mantener los tabs visibles)
+│   │   ├── index.tsx
+│   │   └── [id].tsx
+│   └── carrito/
+│       ├── _layout.tsx  (Stack anidado para el flujo de pago)
+│       ├── index.tsx
+│       └── nota.tsx     (Vista superpuesta como Modal)
 ├── ayuda/
-│ ├── index.tsx
-│ └── [...slug].tsx (Catch-all para artículos de ayuda)
+│   ├── index.tsx
+│   └── [...slug].tsx    (Catch-all para artículos de ayuda)
 ├── categorias/
-│ └── [categoria].tsx
+│   └── [categoria].tsx
 ├── cocina/
-│ ├── \_layout.tsx (Menú lateral - Drawer)
-│ ├── index.tsx
-│ └── atendidos.tsx
-├── \_layout.tsx (Stack Raíz - Gestiona seguridad y modales)
+│   ├── _layout.tsx      (Menú lateral - Drawer)
+│   ├── index.tsx
+│   └── atendidos.tsx
+├── _layout.tsx          (Stack Raíz - Gestiona seguridad y modales)
 ├── +not-found.tsx
 ├── buscar.tsx
-├── confirmar.tsx (Pantalla Modal)
-├── login.tsx (Pantalla Modal)
-├── pedido.tsx (Redirección)
+├── confirmar.tsx        (Pantalla Modal)
+├── login.tsx            (Pantalla Modal)
+├── pedido.tsx           (Redirección)
 └── turno/
 └── [numero].tsx
+```
 
 2. Configuración de Layouts y Navegadores
    Stack Raíz (src/app/\_layout.tsx): Contenedor principal de la aplicación. Configura las pantallas de login y confirmar para que se abran con una animación modal. Además, se encarga de proteger la entrada a la ruta /cocina leyendo el estado de sesión; si el usuario no está logueado, bloquea el acceso.
@@ -69,7 +72,8 @@ Contraseña: 1234
 A continuación se demuestra el funcionamiento del sistema:
 
 - **Pantalla 404 (Ruta inexistente):**
-  ![Error 404](./capturas/404.jpeg)
+ <img width="720" height="1480" alt="404" src="https://github.com/user-attachments/assets/fc655a30-89ff-40a6-a507-57d615c58856" />
+
 
 - **Carrito con funcionalidad de deshacer:**
 
