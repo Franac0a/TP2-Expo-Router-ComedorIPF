@@ -6,7 +6,14 @@ import DondeEstoy from "../../../components/DondeEstoy";
 export default function ListaMenu() {
   // Función para renderizar cada plato en la lista
   const renderPlato = ({ item }: { item: Plato }) => (
-    <Link href={`/menu/${item.id}`} asChild>
+    // Cumpliendo el requisito C4.a: Link usando href como objeto
+    <Link
+      href={{
+        pathname: "/(tabs)/menu/[id]",
+        params: { id: item.id },
+      }}
+      asChild
+    >
       <Pressable style={styles.tarjeta}>
         <View>
           <Text style={styles.nombre}>{item.nombre}</Text>

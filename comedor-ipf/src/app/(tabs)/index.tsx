@@ -8,13 +8,13 @@ export default function Inicio() {
       <Text style={styles.saludo}>¡Hola! Bienvenido al Comedor IPF</Text>
 
       <View style={styles.grid}>
-        <Link href="/(tabs)/menu/index" style={styles.tarjeta}>
+        <Link href="/menu" style={styles.tarjeta}>
           Ir al Menú
         </Link>
         <Link href="/buscar" style={styles.tarjeta}>
           Buscar Plato
         </Link>
-        <Link href="/ayuda/index" style={styles.tarjeta}>
+        <Link href="/ayuda" style={styles.tarjeta}>
           Ayuda
         </Link>
         <Link href="/login" style={styles.tarjetaCocina}>
