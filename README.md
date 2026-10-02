@@ -1,4 +1,4 @@
-# Comedor IPF - App de Pedidos 🍔
+# Comedor IPF - App de Pedidos 
 
 Aplicación desarrollada con Expo Router para la gestión de pedidos del comedor del Instituto Politécnico Formosa.
 
@@ -32,12 +32,14 @@ A continuación se demuestra el funcionamiento del sistema:
   ![Error 404](./capturas/404.jpeg)
 
 - **Carrito con funcionalidad de deshacer:**
-  [Espacio para captura](./capturas/Carrito%20con%20funcionalidad%20de%20deshacer.gif)
+  
+https://github.com/user-attachments/assets/c13a5487-36d0-4894-8ee7-056a8b5e93a8
 
 - **Turno asignado:**
   [Espacio para captura](./capturas/Turno%20asignado.jpeg)
 
 - **Login / Logout de Cocina y atendiendo pedidos (Cola):**
-  [Espacio para captura](./capturas/Cocina%20login,logout%20y%20atendiendo.gif)
+
+https://github.com/user-attachments/assets/eb48bc42-d169-4809-b7c8-d686a7e18973
 
 Aplicación desarrollada con Expo Router para la gestión de pedidos del comedor del Instituto Politécnico Formosa.
