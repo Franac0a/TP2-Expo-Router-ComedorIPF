@@ -50,7 +50,7 @@ export default function CarritoIndex() {
                 <Text style={styles.textoBoton}>Deshacer Último</Text>
               </Pressable>
 
-              <Link href="/confirmar" asChild>
+              <Link href="../confirmar" asChild>
                 <Pressable style={styles.botonConfirmar}>
                   <Text style={styles.textoBoton}>Confirmar</Text>
                 </Pressable>
