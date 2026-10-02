@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Pila } from "../estructuras/Pila";
 import { Cola } from "../estructuras/Cola";
-import { Plato } from "../data/Platos";
+import { Plato } from "../data/platos";
 
 // Definimos cómo es un Pedido
 export interface Pedido {
