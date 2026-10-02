@@ -1,17 +1,16 @@
-import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
-import { useState } from "react";
-import { router } from "expo-router";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import { useAppContext } from "../context/AppContext";
 import DondeEstoy from "../components/DondeEstoy";
 
 export default function Confirmar() {
   const { carrito, confirmarPedido } = useAppContext();
-  // Estado para guardar el texto de la nota
-  const [nota, setNota] = useState("");
+  // Atrapamos la nota que viene desde /carrito/nota
+  const { nota } = useLocalSearchParams();
 
   const procesarPedido = () => {
-    // Le pasamos el estado exacto de lo que escribió el usuario
-    const numeroTurno = confirmarPedido(nota);
+    // Si la nota existe la mandamos, sino mandamos un string vacío
+    const numeroTurno = confirmarPedido((nota as string) || "");
     router.replace(`/turno/${numeroTurno}`);
   };
 
@@ -20,15 +19,13 @@ export default function Confirmar() {
       <Text style={styles.titulo}>Resumen de tu pedido</Text>
       <Text style={styles.texto}>Cantidad de platos: {carrito.length}</Text>
 
-      {/* Campo para ingresar la nota */}
-      <TextInput
-        style={styles.inputNota}
-        placeholder="Aclaraciones para la cocina (ej. sin aderezos)..."
-        value={nota}
-        onChangeText={setNota}
-        multiline
-        maxLength={150}
-      />
+      {/* Mostramos la nota solo si el usuario escribió algo */}
+      {nota ? (
+        <View style={styles.cajaNota}>
+          <Text style={styles.textoNotaLabel}>Nota para cocina:</Text>
+          <Text style={styles.textoNota}>{nota}</Text>
+        </View>
+      ) : null}
 
       <View style={styles.cajaAlerta}>
         <Text style={styles.textoAlerta}>
@@ -45,7 +42,7 @@ export default function Confirmar() {
         onPress={procesarPedido}
         disabled={carrito.length === 0}
       >
-        <Text style={styles.textoBoton}>Enviar a Cocina</Text>
+        <Text style={styles.textoBoton}>Confirmar y Enviar</Text>
       </Pressable>
 
       <DondeEstoy />
@@ -67,15 +64,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   texto: { fontSize: 18, marginBottom: 20, textAlign: "center" },
-  inputNota: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+  cajaNota: {
+    backgroundColor: "#f5f5f5",
     padding: 15,
+    borderRadius: 8,
     marginBottom: 20,
-    minHeight: 80,
-    textAlignVertical: "top",
+    borderWidth: 1,
+    borderColor: "#ddd",
   },
+  textoNotaLabel: { fontWeight: "bold", marginBottom: 5, color: "#333" },
+  textoNota: { fontStyle: "italic", color: "#555" },
   cajaAlerta: {
     backgroundColor: "#ffe4e1",
     padding: 15,
