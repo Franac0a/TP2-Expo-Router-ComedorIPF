@@ -36,7 +36,8 @@ A continuación se demuestra el funcionamiento del sistema:
 https://github.com/user-attachments/assets/c13a5487-36d0-4894-8ee7-056a8b5e93a8
 
 - **Turno asignado:**
-  [Espacio para captura](./capturas/Turno%20asignado.jpeg)
+  <img width="739" height="1600" alt="Turno asignado" src="https://github.com/user-attachments/assets/d66aab05-9a2f-4e76-aac7-8f6596489a25" />
+
 
 - **Login / Logout de Cocina y atendiendo pedidos (Cola):**
 
