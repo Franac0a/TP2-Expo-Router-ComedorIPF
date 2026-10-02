@@ -20,7 +20,6 @@ export default function NotaCarrito() {
         onChangeText={setNota}
         multiline
         maxLength={150}
-        autoFocus
       />
 
       <Pressable style={styles.boton} onPress={avanzarAConfirmacion}>

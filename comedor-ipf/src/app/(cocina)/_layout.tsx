@@ -1,8 +1,10 @@
-import { Redirect, Stack } from "expo-router";
+import { Redirect } from "expo-router";
+import { Drawer } from "expo-router/drawer";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useAppContext } from "../../context/AppContext";
 
 export default function CocinaLayout() {
-  // Traemos el estado de la sesión (asegurate de usar el nombre correcto de tu contexto)
+  // Traemos el estado de la sesión
   const { conSesion } = useAppContext();
 
   // Si no hay sesión, Expo Router corta la navegación y lo manda a login
@@ -11,9 +13,23 @@ export default function CocinaLayout() {
   }
 
   return (
-    <Stack>
-      {/* Ocultamos el header para armar una vista de panel de control limpia */}
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-    </Stack>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Drawer>
+        <Drawer.Screen
+          name="index"
+          options={{
+            drawerLabel: "Pedidos Pendientes",
+            title: "Cola de Pedidos",
+          }}
+        />
+        <Drawer.Screen
+          name="atendidos"
+          options={{
+            drawerLabel: "Historial de Atendidos",
+            title: "Pedidos Completados",
+          }}
+        />
+      </Drawer>
+    </GestureHandlerRootView>
   );
 }
