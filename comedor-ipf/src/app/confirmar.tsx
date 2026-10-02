@@ -1,21 +1,17 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, TextInput } from "react-native";
+import { useState } from "react";
 import { router } from "expo-router";
 import { useAppContext } from "../context/AppContext";
 import DondeEstoy from "../components/DondeEstoy";
 
 export default function Confirmar() {
-  // Agregá deshacerUltimo al destructuring de tu contexto
-  const { carrito, deshacerUltimo } = useAppContext();
+  const { carrito, confirmarPedido } = useAppContext();
+  // Estado para guardar el texto de la nota
+  const [nota, setNota] = useState("");
 
   const procesarPedido = () => {
-    const numeroTurno = Math.floor(Math.random() * 100) + 1;
-
-    // Vaciamos tu Pila (LIFO) sacando todos los elementos uno por uno
-    const cantidad = carrito.length;
-    for (let i = 0; i < cantidad; i++) {
-      deshacerUltimo();
-    }
-
+    // Le pasamos el estado exacto de lo que escribió el usuario
+    const numeroTurno = confirmarPedido(nota);
     router.replace(`/turno/${numeroTurno}`);
   };
 
@@ -24,6 +20,16 @@ export default function Confirmar() {
       <Text style={styles.titulo}>Resumen de tu pedido</Text>
       <Text style={styles.texto}>Cantidad de platos: {carrito.length}</Text>
 
+      {/* Campo para ingresar la nota */}
+      <TextInput
+        style={styles.inputNota}
+        placeholder="Aclaraciones para la cocina (ej. sin aderezos)..."
+        value={nota}
+        onChangeText={setNota}
+        multiline
+        maxLength={150}
+      />
+
       <View style={styles.cajaAlerta}>
         <Text style={styles.textoAlerta}>
           Al confirmar, tu pedido será enviado a la cocina y se te asignará un
@@ -31,7 +37,14 @@ export default function Confirmar() {
         </Text>
       </View>
 
-      <Pressable style={styles.botonConfirmar} onPress={procesarPedido}>
+      <Pressable
+        style={[
+          styles.botonConfirmar,
+          carrito.length === 0 && styles.botonDeshabilitado,
+        ]}
+        onPress={procesarPedido}
+        disabled={carrito.length === 0}
+      >
         <Text style={styles.textoBoton}>Enviar a Cocina</Text>
       </Pressable>
 
@@ -53,7 +66,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
   },
-  texto: { fontSize: 18, marginBottom: 30, textAlign: "center" },
+  texto: { fontSize: 18, marginBottom: 20, textAlign: "center" },
+  inputNota: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 20,
+    minHeight: 80,
+    textAlignVertical: "top",
+  },
   cajaAlerta: {
     backgroundColor: "#ffe4e1",
     padding: 15,
@@ -68,5 +90,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
   },
+  botonDeshabilitado: { backgroundColor: "#aaa" },
   textoBoton: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });

@@ -30,7 +30,15 @@ export default function PantallaTurno() {
 
       <Pressable
         style={styles.botonVolver}
-        onPress={() => router.navigate("/")} // Volvemos al inicio limpiando todo
+        onPress={() => {
+          console.log("Forzando la vuelta al inicio..."); // Para confirmar que detecta el toque
+
+          // Opción 1: Apuntamos directo al grupo de tabs
+          router.replace("/(tabs)");
+
+          // Si te tira error o no hace nada, borrá la línea de arriba y probá con esta:
+          // router.dismissAll();
+        }}
       >
         <Text style={styles.textoBoton}>Volver al Inicio</Text>
       </Pressable>
